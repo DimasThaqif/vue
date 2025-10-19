@@ -15,8 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('customer_name', 100);
             $table->string('table_no', 5);
-            $table->date('order_date')->default(new DateTime());
+            $table->date('order_date');
+            $table->string('order_time', 100);
+            $table->string('status', 100);
+            $table->integer('total')->unsigned();
+            $table->unsignedBigInteger('waitress_id');
+            $table->unsignedBigInteger('cashier_id');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('waitress_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('cashier_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -28,3 +37,5 @@ return new class extends Migration
         Schema::dropIfExists('orders');
     }
 };
+
+
